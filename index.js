@@ -1,13 +1,24 @@
 const fetch = require('node-fetch');
+var cors = require('cors')
+
 
 const API_KEY = 'd2b070eb1e16be91e89182b57fe7ae25563c0e54';
 const API_URL = 'https://www.giantbomb.com/api/games/?api_key=';
-const GAMESORT = API_URL + API_KEY + "&sort=asc&format=json";
+const GAMES = API_URL + API_KEY + "&format=json";
 
-async function getGames() {
-    const res = await fetch(GAMESORT);
+const SWITCHGAMES = GAMES + "&sort=date_added:desc&filter=platforms:157"
+
+async function getGames(query) {
+    const res = await fetch(query);
     const data = await res.json();
+
+    data.results.forEach(game => {
+        const img = document.createElement('img');
+        img.src = game.image.screen_url;
+
+        document.body.appendChild(img);
+    })
     return data;
 }
 
-console.log(getGames());
+getGames(SWITCHGAMES)
