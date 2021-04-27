@@ -1,0 +1,42 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #22254b;
+    font-family: Verdana, Tahoma, sans-serif;
+}
+
+.game {
+    background-color: #373b69;
+    border-radius: 3px;
+    box-shadow: 0 4px 5px rgba(0,0,0,0.2);
+    margin: 2rem;
+    display:inline-block;
+    width: 480px;
+}
+
+.game img {
+    display: inline-block;
+    object-fit: cover;
+    height: 270px;
+    width: 480px;
+}
+
+.game-desc {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.game-desc h3 {
+    margin: 0;
+}
+
+.game-desc span {
+    background-color: #22254b;
+    border-radius: 3px;
+    object-fit: contain;
+    padding: 0.25rem 0.5rem;
+}
