@@ -9,8 +9,9 @@ const currDate = `${year}-${month}-${date} 00:00:00`;
 const API_KEY = 'd2b070eb1e16be91e89182b57fe7ae25563c0e54';
 const API_URL = '?api_key=' + API_KEY;
 
+const SWITCHGAMES = "platforms:157,";
 
-const SWITCHGAMES = "platforms:157,"
+const main = document.querySelector('main');
 
 async function getGame(url) {
     const query = `${url}?api_key=${API_KEY}&format=json`
@@ -33,7 +34,7 @@ async function getGames(filter) {
         const gameElement = document.createElement('div');
         gameElement.classList.add('game');
         gameElement.innerHTML = `
-        <img src="${game.image.screen_url}" alt="${game.deck}"/>
+        <img src="${game.image.screen_url}" title="${game.deck}"/>
         <div class="game-desc">
             <h3>${game.name}</h3>
             <span>${game.original_release_date}</span>
