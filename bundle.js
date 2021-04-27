@@ -2,13 +2,16 @@
 const fetch = require('node-fetch');
 var cors = require('cors')
 
-cors()// Use this after the variable declaration
+const startDate = '1-1 00:00:00'
+let [month, date, year] = new Date().toLocaleDateString("en-US").split("/");
+const currDate = `${year}-${month}-${date} 00:00:00`;
+
 
 const API_KEY = 'd2b070eb1e16be91e89182b57fe7ae25563c0e54';
 const API_URL = 'https://www.giantbomb.com/api/games/?api_key=';
-const GAMES = API_URL + API_KEY + "&format=json";
+const GAMES = API_URL + API_KEY + `&format=json&sort=original_release_date:desc&filter=original_release_date:${startDate}|${currDate},`;
 
-const SWITCHGAMES = GAMES + "&sort=date_added:desc&filter=platforms:157"
+const SWITCHGAMES = GAMES + "platforms:157,"
 
 async function getGames(query) {
     const res = await fetch(query);
@@ -20,6 +23,8 @@ async function getGames(query) {
 
         document.body.appendChild(img);
     })
+
+    console.log(data);
     return data;
 }
 
