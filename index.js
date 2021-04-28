@@ -1,12 +1,11 @@
 const fetch = require('node-fetch');
-var cors = require('cors')
+const API_KEY = require('api.js');
+
+const API_URL = '?api_key=' + API_KEY;
 
 const startDate = '1-1 00:00:00'
 let [month, date, year] = new Date().toLocaleDateString("en-US").split("/");
 const currDate = `${year}-${month}-${date} 00:00:00`;
-
-const API_KEY = 'd2b070eb1e16be91e89182b57fe7ae25563c0e54';
-const API_URL = '?api_key=' + API_KEY;
 
 const main = document.querySelector('main');
 const form = document.getElementById('search-form');
@@ -47,7 +46,7 @@ async function getGame(url) {
     const data = await res.json();
 }
 
-async function getGames(filter) {
+async function getNewestGames(filter) {
     const games = `https://www.giantbomb.com/api/games/${API_URL}&format=json&sort=original_release_date:desc&filter=original_release_date:${startDate}|${currDate},`;
     const query = games + filter;
     const res = await fetch(query);
@@ -61,4 +60,4 @@ form.addEventListener('submit', event => {
     searchGame(searchTerm);
 });
 
-getGames('');
+getNewestGames('');
