@@ -9,24 +9,12 @@ const currDate = `${year}-${month}-${date} 00:00:00`;
 const API_KEY = 'd2b070eb1e16be91e89182b57fe7ae25563c0e54';
 const API_URL = '?api_key=' + API_KEY;
 
-const SWITCHGAMES = "platforms:157,";
-
 const main = document.querySelector('main');
+const form = document.getElementById('search-form');
+const search = document.getElementById('search');
 
-async function getGame(url) {
-    const query = `${url}?api_key=${API_KEY}&format=json`
-    const res = await fetch(query)
-    const data = await res.json();
-
-    console.log(data.genres.name)
-}
-
-async function getGames(filter) {
-    const games = `https://www.giantbomb.com/api/games/${API_URL}&format=json&sort=original_release_date:desc&filter=original_release_date:${startDate}|${currDate},`;
-    const query = games + filter;
-    const res = await fetch(query);
-    const data = await res.json();
-
+function getList(data) {
+    main.innerHTML = '';
     data.results.forEach(game => {
         if (game.original_release_date === null) {
             game.original_release_date = 'Not Listed';
@@ -40,15 +28,41 @@ async function getGames(filter) {
             <span>${game.original_release_date}</span>
         </div>`
 
-        document.body.appendChild(gameElement)
+        main.appendChild(gameElement)
     });
 
-    console.log(data);
     return data;
 }
 
-getGames(SWITCHGAMES)
+async function searchGame(term) {
+    const searchUrl = `https://www.giantbomb.com/api/search/${API_URL}&format=json`
+    const query = `${searchUrl}&resources=game&query=${term}`;
+    const res = await fetch(query);
+    const data = await res.json();
+    getList(data);
+}
 
+async function getGame(url) {
+    const query = `${url}${API_URL}&format=json`
+    const res = await fetch(query);
+    const data = await res.json();
+}
+
+async function getGames(filter) {
+    const games = `https://www.giantbomb.com/api/games/${API_URL}&format=json&sort=original_release_date:desc&filter=original_release_date:${startDate}|${currDate},`;
+    const query = games + filter;
+    const res = await fetch(query);
+    const data = await res.json();
+    getList(data);
+}
+
+form.addEventListener('submit', event => {
+    event.preventDefault();
+    const searchTerm = search.value;
+    searchGame(searchTerm);
+});
+
+getGames('');
 },{"cors":2,"node-fetch":3}],2:[function(require,module,exports){
 (function () {
 
